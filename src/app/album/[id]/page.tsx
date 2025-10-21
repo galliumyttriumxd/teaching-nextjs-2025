@@ -12,6 +12,7 @@ export default async function AlbumDetail({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  
   const db = getDb();
   const { id } = await params;
   const albumId = parseInt(id);

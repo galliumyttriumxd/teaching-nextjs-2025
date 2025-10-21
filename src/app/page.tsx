@@ -1,7 +1,10 @@
 import { getDb } from "@/lib/db";
 import Link from "next/link";
 
-export default async function Home() {
+export default async function Home(){
+
+  // console.log("abc:", abc);
+
   const db = getDb();
 
   const albums = await db
@@ -12,13 +15,14 @@ export default async function Home() {
       "albums.name",
       "albums.release_date",
       "authors.name as author_name",
+      "authors.id as author_id",
     ])
     .execute();
 
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <p className="text-4xl font-bold">Slayify</p>
+        <p className="text-4xl font-bold">Spotify</p>
         <div className="grid grid-cols-3 gap-4">
           {albums.map((album) => (
             <div key={album.id} className="card w-64 bg-base-100 shadow-sm">
@@ -27,7 +31,12 @@ export default async function Home() {
                 <h2 className="text-3xl font-bold">{album.name}</h2>
 
                 <p>ID: {album.id}</p>
-                <p>Author: {album.author_name}</p>
+                <p>
+                  Author:{" "}
+                  <Link href={`/author/${album.author_id}`}>
+                    {album.author_name}
+                  </Link>
+                </p>
                 <p>
                   Release Date: {new Date(album.release_date).toDateString()}
                 </p>

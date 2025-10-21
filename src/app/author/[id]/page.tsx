@@ -6,13 +6,13 @@ export default async function AuthorDetail({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  
   const db = getDb();
   const { id } = await params;
   const authorId = parseInt(id);
 
   if (isNaN(authorId)) return <div>Invalid author id</div>;
 
-  // načítame autora
   const author = await db
     .selectFrom("authors")
     .select(["id", "name", "bio"])
@@ -21,7 +21,6 @@ export default async function AuthorDetail({
 
   if (!author) return <div>Author not found</div>;
 
-  // načítame všetky albumy daného autora
   const albums = await db
     .selectFrom("albums")
     .select(["id", "name", "release_date"])
